@@ -53,4 +53,6 @@ return require('packer').startup(function(use)
     use 'romgrk/barbar.nvim'
 
     use "terrortylor/nvim-comment"
+
+    use { 'akinsho/git-conflict.nvim', tag = "*" }
 end)
