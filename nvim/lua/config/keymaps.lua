@@ -15,8 +15,8 @@ map("n", "gA", 'ggVG"+y') -- If this doesn't work change + to * -- Copy all to C
 map("n", "gY", "ggVGy") -- If this doesn't work change + to * -- Copy all to Clipboard
 
 -- Better Move to tabs
-map("n", "<leader>1", "1gt", { desc = "Move to tab 1" })
 map("n", "<leader>2", "2gt", { desc = "Move to tab 2" })
+map("n", "<leader>1", "1gt", { desc = "Move to tab 1" })
 map("n", "<leader>3", "3gt", { desc = "Move to tab 3" })
 map("n", "<leader>4", "4gt", { desc = "Move to tab 4" })
 map("n", "<leader>5", "5gt", { desc = "Move to tab 5" })
