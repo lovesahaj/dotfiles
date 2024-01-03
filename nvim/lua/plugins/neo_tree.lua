@@ -54,7 +54,7 @@ return {
           enable_character_fade = true,
         },
         indent = {
-          indent_size = 2,
+          indent_size = 4,
           padding = 1, -- extra padding on left hand side
           -- indent guides
           with_markers = true,
@@ -189,7 +189,7 @@ return {
       nesting_rules = {},
       filesystem = {
         filtered_items = {
-          visible = false, -- when true, they will just be displayed differently than normal items
+          visible = true, -- when true, they will just be displayed differently than normal items
           hide_dotfiles = true,
           hide_gitignored = true,
           hide_hidden = true, -- only works on Windows for hidden files/directories

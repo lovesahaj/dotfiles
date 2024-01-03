@@ -44,14 +44,8 @@ return {
     -- event = { "BufReadPre" },
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
-        "bash",
         "python",
         "lua",
-        "json",
-        "c",
-        "vim",
-        "yaml",
-        "go",
       })
       return vim.tbl_deep_extend("force", opts, {
         autotag = {

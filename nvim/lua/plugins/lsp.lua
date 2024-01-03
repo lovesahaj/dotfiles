@@ -106,41 +106,7 @@ return {
         "stylua", -- formatter
 
         -- shell
-        "bash-language-server", -- lsp
-        "shfmt", -- formatter
-        -- "shellcheck",           -- linter
-
-        -- yaml
-        "yamllint", -- linter
-
-        -- sql
-        "sqlfluff", -- linter
-
-        -- rust
-        "rust-analyzer", -- lsp
-        -- rustfmt -- formatter (install via rustup)
-
-        -- go
-        -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-        -- https://github.com/golang/tools/blob/master/gopls/internal/lsp/source/options.go
-        "gopls", -- lsp
-        "golangci-lint-langserver", -- lsp
-        "gofumpt", -- formatter
-        -- "goimports", -- formatter
-        "gci", -- formatter, replaces goimports
-        "golangci-lint", -- linter (its binary is required by golanci-lint-langserver?)
-        -- "gomodifytags", -- code actions
-        -- "impl", -- code actions
-
-        -- protobuf
-        "buf-language-server", -- lsp (prototype, not feature-complete yet, rely on buf for now)
-        "buf", -- formatter, linter
-        "protolint", -- linter
-
-        -- containers
-        -- "hadolint", -- linter
-        -- "dockerfile-language-server",
-        -- "docker-compose-language-service",
+        "shellcheck", -- linter
       }
 
       -- extend opts.ensure_installed
@@ -178,43 +144,11 @@ return {
           filetypes = { "python" },
           command = prefer_bin_from_venv("black"),
         }),
-        diagnostics.mypy.with({
-          filetypes = { "python" },
-          command = prefer_bin_from_venv("mypy"),
-        }),
 
         -- lua
         formatting.stylua.with({
           extra_args = { "--indent-type", "Spaces", "--indent-width", "2" },
         }),
-
-        -- shell
-        formatting.shfmt,
-        diagnostics.shellcheck,
-        code_actions.shellcheck,
-
-        -- yaml
-        diagnostics.yamllint,
-
-        -- sql
-        diagnostics.sqlfluff.with({
-          extra_args = { "--dialect", "postgres" },
-        }),
-
-        -- rust
-        formatting.rustfmt,
-
-        -- go
-        formatting.gofumpt,
-        formatting.goimports,
-        -- diagnostics.golangci_lint, (likely not needed... as golangci-lint-langserver is used?)
-        code_actions.gomodifytags,
-        code_actions.impl,
-
-        -- protobuf
-        formatting.buf,
-        diagnostics.buf,
-        diagnostics.protolint,
       }
 
       -- extend opts.sources
@@ -223,7 +157,7 @@ return {
       end
 
       -- always remove from opts.sources (e.g. added by lazy.lua extras)
-      local remove_sources = { "goimports_reviser" }
+      local remove_sources = {}
       opts.sources = vim.tbl_filter(function(source)
         return not vim.tbl_contains(remove_sources, source.name)
       end, opts.sources)
@@ -241,17 +175,13 @@ return {
       formatters.isort.command = prefer_bin_from_venv("isort")
       formatters.black.command = prefer_bin_from_venv("black")
       formatters.stylua.args =
-        vim.list_extend({ "--indent-type", "Spaces", "--indent-width", "2" }, formatters.stylua.args)
+        vim.list_extend({ "--indent-type", "Tabs", "--indent-width", "4" }, formatters.stylua.args)
 
       local remove_from_formatters = {}
       local extend_formatters_with = {
-        protobuf = { "buf" },
         python = { "ruff_fix", "ruff_format" },
-        rust = { "rustfmt" },
       }
-      local replace_formatters_with = {
-        go = { "gofumpt", "goimports", "gci" },
-      }
+      local replace_formatters_with = {}
 
       -- NOTE: conform.nvim can use a sub-list to run only the first available formatter (see docs)
 
