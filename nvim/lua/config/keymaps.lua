@@ -10,6 +10,8 @@ map("n", "<leader>j", ":wincmd j<CR>")
 map("n", "<leader>k", ":wincmd k<CR>")
 map("n", "<leader>l", ":wincmd l<CR>")
 
+map("n", "<C-\\>", ":ToggleTerm<CR>")
+
 -- Better copy
 map("n", "gA", 'ggVG"+y') -- If this doesn't work change + to * -- Copy all to Clipboard
 map("n", "gY", "ggVGy") -- If this doesn't work change + to * -- Copy all to Clipboard
