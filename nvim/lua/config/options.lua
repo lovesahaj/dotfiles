@@ -4,6 +4,11 @@
 
 local opt = vim.opt
 
+opt.expandtab = true -- expand tab input with spaces characters
+opt.smartindent = true -- syntax aware indentations for newline inserts
+opt.tabstop = 4 -- num of space characters per tab
+opt.shiftwidth = 4 -- spaces per indentation level
+
 -- Indent
 opt.autoindent = true -- Copy indent from current line when starting a new line (When <CR> or 'o' or 'O')
 opt.smarttab = true -- When on, a <Tab> in front of a line inserts blanks according to 'shiftwidth'
