@@ -1,6 +1,16 @@
 -- You can add your own plugins here or in other files in this directory!
 return {
 	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end,
+	},
+	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		---@type Flash.Config
