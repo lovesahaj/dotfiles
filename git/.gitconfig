@@ -1,0 +1,5 @@
+[user]
+	email = lovesahaj1225@gmail.com 
+	name = lovesahaj
+[credential]
+	helper = store --file ~/.my-credentials
