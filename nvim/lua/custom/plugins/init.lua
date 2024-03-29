@@ -1,14 +1,15 @@
 -- You can add your own plugins here or in other files in this directory!
 return {
+	{ "kepano/flexoki-neovim", name = "flexoki" },
 	{
 		"kylechui/nvim-surround",
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
 		event = "VeryLazy",
-		config = function()
-			require("nvim-surround").setup({
-				-- Configuration here, or leave empty to use defaults
-			})
-		end,
+		-- config = function()
+		-- 	require("nvim-surround").setup({
+		-- 		-- Configuration here, or leave empty to use defaults
+		-- 	})
+		-- end,
 	},
 	{
 		"folke/flash.nvim",
@@ -42,10 +43,11 @@ return {
 	{
 		"WhoIsSethDaniel/toggle-lsp-diagnostics.nvim",
 		config = function()
-			require("toggle_lsp_diagnostics").init(
-				{ start_on = true },
-				{ underline = true, virtual_text = { prefix = "XXX", spacing = 5 } }
-			) -- Toggle LSP linter
+			require("toggle_lsp_diagnostics").init({
+				start_on = true,
+				underline = true,
+				virtual_text = { prefix = "XXX", spacing = 5 },
+			}) -- Toggle LSP linter
 		end,
 	},
 
@@ -68,6 +70,7 @@ return {
 		lazy = false,
 		cmd = { "ToggleTerm" },
 		opts = {
+			direction = "float",
 			open_mapping = [[<c-\>]],
 			shade_terminals = true,
 			start_in_insert = true,
