@@ -123,6 +123,7 @@ source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+eval "$(zoxide init zsh)"
 
 export VISUAL=nvim
 export EDITOR='nvim'
@@ -137,7 +138,7 @@ alias l='ls -CF'
 
 alias lg='lazygit'
 alias nv='nvim'
-
+alias cd='z'
 
 export SCRIPT_DIR="$HOME/.config/i3blocks"
 
@@ -159,3 +160,4 @@ export LANG=en_US.UTF-8
 #
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
