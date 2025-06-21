@@ -127,7 +127,11 @@ eval "$(zoxide init zsh)"
 
 export VISUAL=nvim
 export EDITOR='nvim'
-source /usr/share/nvm/init-nvm.sh
+
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 
 export TERM="xterm-256color"
 
