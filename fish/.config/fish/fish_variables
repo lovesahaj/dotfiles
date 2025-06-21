@@ -1,6 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --export ANDROID_HOME:/Users/loves/Library/Android/sdk
+SETUVAR --export ANDROID_HOME:/Users/lovess/Library/Android/sdk
 SETUVAR --export EDITOR:nvim
 SETUVAR --export --path GOPATH:/Users/loves/go
 SETUVAR --export LANG:en_US\x2eUTF\x2d8
