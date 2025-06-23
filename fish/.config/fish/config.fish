@@ -85,3 +85,10 @@ set -x PATH "/Library/Frameworks/Python.framework/Versions/3.12/bin" "$PATH"
 # Setting PATH for Python 3.8
 # The original version is saved in /Users/loves/.config/fish/config.fish.pysave
 set -x PATH "/Library/Frameworks/Python.framework/Versions/3.8/bin" "$PATH"
+
+
+set -gx NVM_DIR "$([ -z "$XDG_CONFIG_HOME" ] && printf %s "$HOME/.nvm" || printf %s "$XDG_CONFIG_HOME/nvm")"
+
+function nvm
+    bass source "$NVM_DIR/nvm.sh" --no-use ';' nvm $argv
+end
