@@ -9,30 +9,27 @@ vim.g.have_nerd_font = true
 -- Make line numbers default and have relative numbering
 vim.opt.number = true
 vim.opt.relativenumber = true
--- You can also add relative line numbers, for help with jumping.
---  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in status line
-vim.opt.showmode = true
+vim.opt.showmode = false -- Changed to false as it will be shown in statusline
 vim.opt.wrap = true
+vim.opt.linebreak = true -- Break lines at word boundaries
+vim.opt.showbreak = '↪ ' -- Show character at the start of wrapped lines
 
 -- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+vim.opt.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
+vim.opt.undolevels = 10000
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.opt.ignorecase = true
@@ -66,3 +63,33 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- Better completion experience
+vim.opt.completeopt = { 'menuone', 'noselect' }
+
+-- Better wildmenu
+vim.opt.wildmode = {'longest:full', 'full'}
+vim.opt.wildignore:append {'*/node_modules/*', '*/vendor/*', '*.o', '*.pyc', '*/__pycache__/*'}
+
+-- Keep cursor in the middle of the screen while scrolling
+vim.opt.scrolloff = 999
+
+-- Show a minimum of lines above/below cursor when scrolloff=999 doesn't apply
+vim.opt.scrolloff = math.max(vim.opt.scrolloff:get(), 8)
+
+-- Default indent settings
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2 
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.smartindent = true
+
+-- Show line/column info
+vim.opt.ruler = true
+
+-- Always have at least 5 lines of context when scrolling
+vim.opt.scrolloff = 5 
+
+-- Search settings
+vim.opt.hlsearch = true     -- Highlight search matches
+vim.opt.incsearch = true    -- Show matches as you type
