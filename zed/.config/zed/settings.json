@@ -1,0 +1,68 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  // "features": {
+  //   "edit_prediction_provider": "zed"
+  // },
+  "agent": {
+    "default_profile": "write",
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "claude-sonnet-4"
+    },
+    "model_parameters": [],
+    "dock": "left",
+    "version": "2"
+  },
+  "chat_panel": {
+    "dock": "left"
+  },
+  "features": {
+    "edit_prediction_provider": "supermaven"
+  },
+  "ssh_connections": [
+    {
+      "host": "ec2-13-126-19-62.ap-south-1.compute.amazonaws.com",
+      "username": "ubuntu",
+      "args": ["-i", "sahaj.pem"],
+      "projects": [
+        {
+          "paths": ["~/analytics"]
+        }
+      ]
+    }
+  ],
+  "project_panel": {
+    "dock": "right"
+  },
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_line_height": "comfortable",
+  "buffer_font_family": "SpaceMono Nerd Font",
+  "buffer_font_size": 13.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Fleet Dark"
+  },
+  "format_on_save": "off",
+  "lsp": {
+    "pyright": {
+      "settings": {
+        "python.analysis": {
+          "diagnosticMode": "workspace"
+          // "typeCheckingMode": "strict"
+        },
+        "python": {
+          "pythonPath": "/Users/loves/Library/Caches/pypoetry/virtualenvs/luffy-mNPZ0jh6-py3.13/bin/python"
+        }
+      }
+    }
+  }
+}

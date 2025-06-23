@@ -1,0 +1,45 @@
+[[language]]
+name = "python"
+scope = "source.python"
+injection-regex = "python"
+file-types = ["py","pyi","py3","pyw",".pythonstartup",".pythonrc"]
+shebangs = ["python"]
+roots = [".", "pyproject.toml", "pyrightconfig.json"]
+comment-token = "#"
+# List both language servers
+language-servers = [
+    { name = "pyright", except-features = ["diagnostics", "format"] }, # Pyright for everything EXCEPT diagnostics and format
+    { name = "ruff", only-features = ["diagnostics", "format"] },      # Ruff for ONLY diagnostics and format
+]
+indent = { tab-width = 4, unit = "    " }
+auto-format = true # Helix will use the 'format' capability from the language servers (assigned to ruff here)
+
+# Configure the pyright language server
+[language-server.pyright]
+command = "pyright-langserver" # Or just "pyright" if you've fixed wrapper/environment
+args = ["--stdio"]
+
+[language-server.pyright.config]
+reportMissingTypeStubs = false # Keep your preferred pyright settings
+
+[language-server.pyright.config.python.analysis]
+typeCheckingMode = "strict" # Keep your preferred pyright analysis settings
+autoImportCompletions = true
+
+# Configure the ruff language server
+[language-server.ruff]
+command = "ruff" # Use the native ruff command
+args = ["server"] # Use the server subcommand
+
+[language-server.ruff.config]
+settings = {args = []} # Add any ruff server specific settings here if needed
+
+# You can likely remove or comment out the separate formatter section now,
+# as formatting is handled by the 'format' capability from the language servers (assigned to ruff).
+# [language.formatter]
+# command = "black"
+# args = [
+#  "-",
+#  "--quiet",
+#  "--line-length=80"
+# ]
