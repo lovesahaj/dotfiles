@@ -60,7 +60,7 @@ config.text_background_opacity = 1.0
 config.hide_tab_bar_if_only_one_tab = true
 
 config.font_size = 14
-config.font = wezterm.font("SauceCodePro Nerd Font")
+config.font = wezterm.font("Monofur Nerd Font")
 
 -- and finally, return the configuration to wezterm
 return config

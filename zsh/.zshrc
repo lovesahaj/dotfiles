@@ -129,9 +129,12 @@ eval "$(zoxide init zsh)"
 export VISUAL=nvim
 export EDITOR='nvim'
 
+# export NVM_DIR="$HOME/.nvm"
+#   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+#   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 
 export TERM="xterm-256color"
@@ -165,4 +168,9 @@ export LANG=en_US.UTF-8
 #
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/loves/.lmstudio/bin"
+# End of LM Studio CLI section
 
