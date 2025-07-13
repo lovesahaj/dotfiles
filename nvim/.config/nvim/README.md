@@ -1,23 +1,351 @@
-# envym -- Based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
+# 🚀 Personal Neovim Configuration
 
-## Introduction
+A modern, feature-rich Neovim configuration built for development productivity. This setup provides a complete IDE-like experience with intelligent code completion, debugging, formatting, and powerful navigation tools.
 
-A starting point for Neovim that is:
+> 🎯 **Philosophy**: Manual control over automatic behavior - format when you want, debug when you need, customize as you grow.
 
-* Small
-* Single-file
-* Completely Documented
+## ✨ Key Features
 
-**NOT** a Neovim distribution, but instead a starting point for your configuration.
+- 🎨 **Multiple colorschemes** - OneDark, Tokyonight, Catppuccin, Oxocarbon
+- 🔍 **Advanced search & replace** - Telescope fuzzy finding + Spectre project-wide search/replace
+- 💻 **Full LSP support** - Intelligent completion, diagnostics, and code actions
+- 🛠️ **Manual formatting** - 20+ language formatters triggered with `<leader>fw`
+- 🐛 **Integrated debugging** - Full DAP setup with UI for Python and more
+- 🌳 **Git integration** - Gitsigns + Lazygit for complete git workflow
+- 🖥️ **Terminal integration** - ToggleTerm with float, horizontal, vertical modes
+- 🚀 **Fast navigation** - Hop word jumping, Flash search, Harpoon file marking
+- 🎯 **AI assistance** - Supermaven AI code completion
+- 📦 **Plugin management** - Lazy.nvim for fast startup and easy management
 
-## Installation
+## 🎯 Essential Shortcuts
 
-### Install Neovim
+### Navigation & Files
+| Action | Key | Description |
+|--------|-----|-------------|
+| **File Explorer** | `<leader>e` | Toggle NvimTree |
+| **Find File** | `\\` | Find current file in tree |
+| **Fuzzy Find** | `<leader>sf` | Telescope file search |
+| **Recent Files** | `<leader>?` | Search recent files |
+| **Buffers** | `<leader><leader>` | Find open buffers |
+| **Quick Jump** | `<leader>H` | Hop to any word |
+| **Flash Search** | `s` | Flash jump to characters |
 
-Kickstart.nvim targets *only* the latest
-['stable'](https://github.com/neovim/neovim/releases/tag/stable) and latest
-['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
-If you are experiencing issues, please make sure you have the latest versions.
+### Search & Replace
+| Action | Key | Description |
+|--------|-----|-------------|
+| **Live Grep** | `<leader>sg` | Search in project |
+| **Search Word** | `<leader>sw` | Search current word |
+| **Project Replace** | `<leader>sp` | Spectre search/replace |
+| **File Replace** | `<leader>sr` | Replace in current file |
+| **In Buffer** | `<leader>/` | Fuzzy search current buffer |
+
+### Code & LSP
+| Action | Key | Description |
+|--------|-----|-------------|
+| **Format Code** | `<leader>fw` | Format buffer/selection |
+| **Format Info** | `<leader>fi` | Show formatter details |
+| **Go to Definition** | `gd` | Jump to definition |
+| **Find References** | `gr` | Find all references |
+| **Code Actions** | `<leader>ca` | Show code actions |
+| **Rename Symbol** | `<leader>rn` | Rename variable/function |
+| **Hover Docs** | `K` | Show documentation |
+| **Diagnostics** | `<leader>xx` | Trouble diagnostics |
+
+### Git & Version Control
+| Action | Key | Description |
+|--------|-----|-------------|
+| **Lazygit** | `<leader>tg` | Open Lazygit interface |
+| **Git Toggle** | `<leader>gs` | Toggle git line highlights |
+| **Next Hunk** | `]c` | Jump to next git change |
+| **Prev Hunk** | `[c` | Jump to previous git change |
+
+### Debug (DAP)
+| Action | Key | Description |
+|--------|-----|-------------|
+| **Start/Continue** | `<F5>` | Start or continue debugging |
+| **Step Over** | `<F10>` | Step over line |
+| **Step Into** | `<F11>` | Step into function |
+| **Step Out** | `<F12>` | Step out of function |
+| **Toggle Breakpoint** | `<leader>b` | Set/remove breakpoint |
+| **Debug UI** | `<leader>du` | Toggle debug interface |
+
+### Terminal & Tools
+| Action | Key | Description |
+|--------|-----|-------------|
+| **Toggle Terminal** | `<Ctrl-\>` | Float terminal |
+| **Horizontal Term** | `<leader>th` | Horizontal terminal |
+| **Vertical Term** | `<leader>tv` | Vertical terminal |
+| **Run Python** | `<leader>tp` | Execute Python file |
+| **Run JS/TS** | `<leader>tj` | Execute JS/TS file |
+| **Exit Terminal** | `<Esc><Esc>` | Exit terminal mode |
+
+### Harpoon (Quick File Access)
+| Action | Key | Description |
+|--------|-----|-------------|
+| **Mark File** | `<leader>aa` | Add file to harpoon |
+| **Harpoon Menu** | `<leader>am` | Show marked files |
+| **Jump to 1-5** | `<leader>1-5` | Jump to marked file |
+| **Next/Prev** | `<leader>aj/ak` | Navigate marked files |
+
+## 📦 Installation
+
+### Prerequisites
+```bash
+# Required tools
+brew install neovim git make gcc ripgrep fd
+# Or on Linux: sudo apt install neovim git make gcc ripgrep fd-find
+
+# Optional but recommended
+brew install lazygit python3 node npm
+# Nerd Font for icons (e.g., FiraCode Nerd Font)
+```
+
+### Setup
+```bash
+# Backup existing config (if any)
+mv ~/.config/nvim ~/.config/nvim.backup
+
+# Clone configuration
+git clone https://github.com/your-username/dotfiles ~/.config/dotfiles
+ln -s ~/.config/dotfiles/nvim/.config/nvim ~/.config/nvim
+
+# Start Neovim - plugins will auto-install
+nvim
+
+# Install language tools
+:Mason
+```
+
+### Post-Installation
+1. **Install language servers**: `:Mason` → Install LSPs for your languages
+2. **Configure formatters**: Check `:ConformInfo` for formatter status
+3. **Set up debugging**: Python DAP is pre-configured, add others as needed
+4. **Choose colorscheme**: Edit `lua/custom/plugins/colorscheme.lua`
+
+## 🏗️ Project Structure
+
+```
+nvim/
+├── init.lua                           # Entry point & plugin loader
+├── lazy-lock.json                     # Plugin version lock file
+├── lua/custom/                        # Main configuration directory
+│   ├── keymaps.lua                    # All keybindings & shortcuts
+│   ├── vim_config.lua                 # Vim options & settings
+│   ├── formatters.lua                 # Formatter configurations
+│   ├── autopairs.lua                  # Auto-bracket insertion
+│   ├── gitsigns.lua                   # Git integration setup
+│   ├── indent_line.lua                # Indentation guides
+│   ├── lint.lua                       # Linting configuration
+│   ├── lsp_config.lua                 # Language Server Protocol
+│   └── plugins/                       # Plugin configurations
+│       ├── init.lua                   # Main plugin definitions
+│       ├── colorscheme.lua            # Theme configuration
+│       ├── lualine.lua                # Status line
+│       ├── noice.lua                  # Enhanced UI messages
+│       ├── nvim-ufo.lua               # Code folding
+│       ├── spectre.lua                # Search & replace
+│       ├── toggleterm.lua             # Terminal integration
+│       ├── treesitter-textobjects.lua # Text objects
+│       ├── which-key.lua              # Keymap help
+│       └── config/                    # Advanced configurations
+│           ├── dap.lua                # Debug adapter setup
+│           ├── lsp.lua                # LSP server configs
+│           ├── nvim-cmp.lua           # Completion engine
+│           ├── nvim-tree.lua          # File explorer
+│           └── telescope.lua          # Fuzzy finder
+└── README_formatters.md               # Formatting documentation
+```
+
+## 🔧 Language Support
+
+### Built-in Support
+- **Python** - LSP (Pyright), formatting (isort + ruff), debugging (DAP)
+- **JavaScript/TypeScript** - LSP, formatting (Prettier), syntax highlighting
+- **Lua** - LSP (lua_ls), formatting (stylua), Neovim API completion
+- **Go** - LSP, formatting (gofmt + goimports)
+- **Rust** - LSP, formatting (rustfmt)
+- **C/C++** - LSP, formatting (clang-format)
+- **Shell** - Formatting (shfmt), syntax highlighting
+- **Web** - HTML, CSS, JSON, YAML, Markdown formatting
+
+### Adding New Languages
+1. **LSP Server**: Add to `lua/custom/lsp_config.lua` servers table
+2. **Formatter**: Add to `lua/custom/formatters.lua` formatters_by_ft table
+3. **Install Tools**: Use `:Mason` to install language tools
+4. **Syntax**: Treesitter auto-installs parsers as needed
+
+## 🎨 Customization
+
+### Change Colorscheme
+```lua
+-- Edit lua/custom/plugins/colorscheme.lua
+-- Change priority values to set default theme
+```
+
+### Add Custom Keymaps
+```lua
+-- Add to lua/custom/keymaps.lua
+vim.keymap.set('n', '<leader>custom', ':echo "Hello"<CR>', { desc = 'Custom command' })
+```
+
+### Add New Formatters
+```lua
+-- Edit lua/custom/formatters.lua
+M.formatters_by_ft = {
+  -- Add your language
+  newlang = { 'formatter-name' },
+}
+```
+
+### Configure LSP Servers
+```lua
+-- Edit lua/custom/lsp_config.lua
+local servers = {
+  -- Add new server
+  new_ls = {
+    settings = {
+      -- server-specific settings
+    }
+  }
+}
+```
+
+## 🔧 Plugin Highlights
+
+### Core Productivity
+- **[Lazy.nvim](https://github.com/folke/lazy.nvim)** - Fast plugin manager
+- **[Telescope](https://github.com/nvim-telescope/telescope.nvim)** - Fuzzy finder
+- **[nvim-tree](https://github.com/nvim-tree/nvim-tree.lua)** - File explorer
+- **[which-key](https://github.com/folke/which-key.nvim)** - Keymap helper
+
+### Development Tools
+- **[LSP Config](https://github.com/neovim/nvim-lspconfig)** - Language servers
+- **[nvim-cmp](https://github.com/hrsh7th/nvim-cmp)** - Autocompletion
+- **[conform.nvim](https://github.com/stevearc/conform.nvim)** - Code formatting
+- **[nvim-dap](https://github.com/mfussenegger/nvim-dap)** - Debug adapter
+
+### Navigation & UI
+- **[Hop](https://github.com/smoka7/hop.nvim)** - Fast cursor movement
+- **[Flash](https://github.com/folke/flash.nvim)** - Enhanced search
+- **[Harpoon](https://github.com/ThePrimeagen/harpoon)** - File bookmarks
+- **[lualine](https://github.com/nvim-lualine/lualine.nvim)** - Status line
+
+### Git & Terminal
+- **[Gitsigns](https://github.com/lewis6991/gitsigns.nvim)** - Git integration
+- **[ToggleTerm](https://github.com/akinsho/toggleterm.nvim)** - Terminal
+- **[Trouble](https://github.com/folke/trouble.nvim)** - Diagnostics
+- **[Spectre](https://github.com/nvim-pack/nvim-spectre)** - Search/replace
+
+## 🛠️ Troubleshooting
+
+### Health Checks
+```vim
+:checkhealth          # Overall Neovim health
+:checkhealth telescope # Specific plugin health
+:checkhealth lsp       # LSP configuration
+```
+
+### Common Commands
+```vim
+:Lazy              # Plugin manager
+:Lazy sync         # Update all plugins
+:Mason             # Tool installer
+:ConformInfo       # Formatter status
+:LspInfo           # LSP server status
+:Telescope         # Available pickers
+:WhichKey          # Show keymaps
+```
+
+### Performance Issues
+```vim
+:Lazy profile      # Plugin load times
+:LspRestart        # Restart language servers
+:TSUpdate          # Update Treesitter parsers
+```
+
+### Reset Configuration
+```bash
+# Remove plugin data
+rm -rf ~/.local/share/nvim
+rm -rf ~/.local/state/nvim
+
+# Restart Neovim to reinstall
+nvim
+```
+
+## 🤝 Contributing
+
+This is a personal configuration, but feel free to:
+- Fork and adapt for your needs
+- Report issues or suggestions
+- Share improvements or optimizations
+
+## 📚 Resources
+
+- **[Neovim Documentation](https://neovim.io/doc/user/)**
+- **[Lazy.nvim Guide](https://lazy.folke.io/)**
+- **[LSP Configuration](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md)**
+- **[Treesitter](https://github.com/nvim-treesitter/nvim-treesitter)**
+- **[Mason Tool Installer](https://github.com/williamboman/mason.nvim)**
+
+---
+
+## 📄 License
+
+This configuration is provided as-is under the MIT License. See the individual plugin repositories for their respective licenses.
+
+**Happy coding!** 🎉
+
+### Add Formatters
+Edit `lua/custom/formatters.lua` - add languages to `formatters_by_ft`.
+
+### Configure LSP
+Edit `lua/custom/lsp_config.lua` - add servers to ensure_installed.
+
+## 📂 Structure
+
+```
+nvim/
+├── init.lua                     # Entry point
+├── lua/custom/
+│   ├── keymaps.lua             # All keybindings
+│   ├── vim_config.lua          # Vim settings
+│   ├── formatters.lua          # Formatter configs
+│   └── plugins/                # Plugin configurations
+└── README_formatters.md        # Formatting guide
+```
+
+## 🔧 Language Support
+
+**Built-in**: Lua, Python, JavaScript/TypeScript, Go, Rust, C/C++, and more.
+
+**Adding new languages**:
+1. Add LSP server in `lsp_config.lua`
+2. Add formatter in `formatters.lua`
+3. Install tools via `:Mason`
+
+## 🛠️ Troubleshooting
+
+```vim
+:checkhealth    # Check system health
+:Lazy sync      # Update plugins
+:Mason          # Install/manage tools
+:ConformInfo    # Formatter status
+:LspInfo        # LSP server status
+```
+
+## 📈 Philosophy
+
+This configuration prioritizes:
+- **Manual formatting** (no auto-format on save by default)
+- **Productivity** with intelligent keybindings
+- **Modularity** with organized file structure
+- **Performance** with lazy loading
+- **Simplicity** while maintaining power
+
+---
+
+**Happy coding! 🎉**
 
 ### Install External Dependencies
 

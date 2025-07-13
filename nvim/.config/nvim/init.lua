@@ -80,7 +80,7 @@ end
 
 -- which python function to pull the python path to use for dap
 function get_python_path()
-  local python_path = vim.fn.system 'which python'
+  local python_path = vim.fn.system('which python'):gsub('\n', '')
   if python_path == '' then
     python_path = '/usr/bin/python'
   end

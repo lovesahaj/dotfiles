@@ -92,3 +92,8 @@ set -gx NVM_DIR "$([ -z "$XDG_CONFIG_HOME" ] && printf %s "$HOME/.nvm" || printf
 function nvm
     bass source "$NVM_DIR/nvm.sh" --no-use ';' nvm $argv
 end
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /Users/lovess/.lmstudio/bin
+# End of LM Studio CLI section
+
