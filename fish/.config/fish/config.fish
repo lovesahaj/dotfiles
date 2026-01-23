@@ -32,23 +32,6 @@ end
 set -Ux LC_ALL en_US.UTF-8
 set -Ux LANG en_US.UTF-8
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if test -f /Users/loves/miniforge3/bin/conda
-    eval /Users/loves/miniforge3/bin/conda "shell.fish" "hook" $argv | source
-else
-    if test -f "/Users/loves/miniforge3/etc/fish/conf.d/conda.fish"
-        . "/Users/loves/miniforge3/etc/fish/conf.d/conda.fish"
-    else
-        set -x PATH "/Users/loves/miniforge3/bin" $PATH
-    end
-end
-
-if test -f "/Users/loves/miniforge3/etc/fish/conf.d/mamba.fish"
-    source "/Users/loves/miniforge3/etc/fish/conf.d/mamba.fish"
-end
-# <<< conda initialize <<<
-
 
 # ASDF configuration code
 if test -z $ASDF_DATA_DIR
@@ -65,10 +48,6 @@ end
 set --erase _asdf_shims
 
 
-set -x PATH "/Users/loves/.juliaup/bin" $PATH
-set -Ux GOPATH "/Users/loves/go"
-set -x PATH (go env GOPATH)/bin $PATH
-
 set -Ux ANDROID_HOME "$HOME/Library/Android/sdk"
 set -x PATH $ANDROID_HOME/emulator $PATH
 set -x PATH $ANDROID_HOME/platform-tools $PATH
@@ -79,11 +58,9 @@ zoxide init fish | source
 starship init fish | source
 
 # Setting PATH for Python 3.12
-# The original version is saved in /Users/loves/.config/fish/config.fish.pysave
 set -x PATH "/Library/Frameworks/Python.framework/Versions/3.12/bin" "$PATH"
 
 # Setting PATH for Python 3.8
-# The original version is saved in /Users/loves/.config/fish/config.fish.pysave
 set -x PATH "/Library/Frameworks/Python.framework/Versions/3.8/bin" "$PATH"
 
 
@@ -96,4 +73,7 @@ end
 # Added by LM Studio CLI (lms)
 set -gx PATH $PATH /Users/lovess/.lmstudio/bin
 # End of LM Studio CLI section
+
+set -gx LDFLAGS "-L/opt/homebrew/opt/llvm/lib"
+set -gx CPPFLAGS "-I/opt/homebrew/opt/llvm/include"
 

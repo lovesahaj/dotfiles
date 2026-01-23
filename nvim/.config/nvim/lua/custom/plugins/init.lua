@@ -10,6 +10,9 @@ return {
     lazy = true,
   },
   {
+    'pteroctopus/faster.nvim',
+  },
+  {
     'rcarriga/nvim-dap-ui',
     dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' },
     keys = {
@@ -153,13 +156,9 @@ return {
         dynamicRegistration = false,
         lineFoldingOnly = true,
       }
-      local language_servers = require('lspconfig').util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
-      for _, ls in ipairs(language_servers) do
-        require('lspconfig')[ls].setup {
-          capabilities = capabilities,
-          -- you can add other fields for setting up lsp server in this table
-        }
-      end
+      -- Note: With vim.lsp.config API, servers are configured individually
+      -- You can list servers manually if needed: {'lua_ls', 'pyright', 'ruff'}
+      -- For now, relying on mason-lspconfig handlers in lsp_config.lua
       require('ufo').setup()
     end,
   },
@@ -223,9 +222,18 @@ return {
   },
   { 'mbbill/undotree' },
   {
+    'benomahony/uv.nvim',
+    config = function()
+      require('uv').setup()
+    end,
+  },
+  {
     'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim',
     config = function()
-      require('toggle_lsp_diagnostics').init({ start_on = true }, { underline = true, virtual_text = { prefix = 'XXX', spacing = 5 } }) -- Toggle LSP linter
+      require('toggle_lsp_diagnostics').init(
+        { start_on = true },
+        { underline = true, virtual_text = { prefix = 'XXX', spacing = 5 } }
+      ) -- Toggle LSP linter
     end,
   },
 
@@ -389,7 +397,7 @@ return {
   },
   { 'Bilal2453/luvit-meta', lazy = true },
 
-  { -- Manual formatting only (triggered with <leader>fw)
+  { -- Format on save enabled, also manually with <leader>fw
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
@@ -404,11 +412,13 @@ return {
       },
     },
     opts = function()
-      local formatters_config = require('custom.formatters')
+      local formatters_config = require 'custom.formatters'
       return {
         notify_on_error = true,
-        -- Removed format_on_save to disable automatic formatting
-        -- Only format when explicitly triggered with <leader>fw
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_format = 'fallback',
+        },
         formatters_by_ft = formatters_config.formatters_by_ft,
         formatters = formatters_config.formatters,
       }
@@ -576,7 +586,12 @@ return {
       indent = { enable = true, disable = { 'ruby' } },
     },
   },
-
+  {
+    'chomosuke/typst-preview.nvim',
+    lazy = false,
+    version = '1.*',
+    opts = {},
+  },
   require 'custom.indent_line',
   require 'custom.lint',
   require 'custom.lsp_config',

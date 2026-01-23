@@ -1,7 +1,5 @@
-local lspconfig = require 'lspconfig'
-
--- config for pyright
-lspconfig.pyright.setup {
+-- config for pyright using new vim.lsp.config API
+vim.lsp.config('pyright', {
   filetypes = { 'python' },
   settings = {
     pyright = { autoImportCompletion = true },
@@ -10,4 +8,6 @@ lspconfig.pyright.setup {
       analysis = { autoSearchPaths = true, diagnosticMode = 'openFilesOnly', useLibraryCodeForTypes = true },
     },
   },
-}
+})
+
+vim.lsp.enable('pyright')

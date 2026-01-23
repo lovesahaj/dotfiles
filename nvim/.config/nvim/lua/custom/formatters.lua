@@ -9,7 +9,7 @@ M.formatters_by_ft = {
   lua = { 'stylua' },
   
   -- Python
-  python = { 'isort', 'ruff' },
+  python = { 'isort', 'ruff_format' },
   
   -- JavaScript/TypeScript
   javascript = { 'prettierd', 'prettier', stop_after_first = true },
@@ -123,7 +123,10 @@ M.formatters = {
   },
   
   -- Ruff configuration for Python
-  ruff = {
+  ruff_format = {
+    command = 'ruff',
+    args = { 'format', '--line-length', '88', '--stdin-filename', '$FILENAME', '-' },
+    stdin = true,
   },
   
   -- isort configuration for Python imports
@@ -155,11 +158,8 @@ M.formatters = {
   gofmt = {},
   
   -- rustfmt configuration
-  rustfmt = {
-    prepend_args = { 
-      '--edition', '2021',
-    },
-  },
+  -- Let rustfmt detect edition from Cargo.toml or rustfmt.toml
+  rustfmt = {},
   
   -- Add more custom formatter configurations as needed
 }
