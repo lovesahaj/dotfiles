@@ -6,6 +6,19 @@ return {
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
+        -- Python
+        python = { 'ruff' },
+
+        -- JavaScript/TypeScript
+        javascript = { 'eslint' },
+        typescript = { 'eslint' },
+        javascriptreact = { 'eslint' },
+        typescriptreact = { 'eslint' },
+
+        -- Go
+        go = { 'golangcilint' },
+
+        -- Markdown
         markdown = { 'markdownlint' },
       }
 

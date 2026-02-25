@@ -70,6 +70,196 @@ return {
       require('dapui').setup(opts)
     end,
   },
+
+  -- Test Runner
+  {
+    'nvim-neotest/neotest',
+    dependencies = {
+      'nvim-neotest/nvim-nio',
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+
+      -- Language adapters
+      'nvim-neotest/neotest-python',
+      'rouge8/neotest-rust',
+      'nvim-neotest/neotest-go',
+      'nvim-neotest/neotest-jest',
+      'marilari88/neotest-vitest',
+    },
+    config = function()
+      require('neotest').setup {
+        adapters = {
+          require 'neotest-python' {
+            dap = { justMyCode = false },
+            runner = 'pytest',
+          },
+          require 'neotest-rust' {
+            args = { '--no-capture' },
+          },
+          require 'neotest-go' {
+            experimental = { test_table = true },
+            args = { '-v', '-race', '-count=1' },
+          },
+          require 'neotest-jest' {
+            jestCommand = 'npm test --',
+          },
+          require 'neotest-vitest',
+        },
+        discovery = {
+          enabled = true,
+        },
+        running = {
+          concurrent = true,
+        },
+        summary = {
+          open = 'botright vsplit | vertical resize 50',
+        },
+      }
+    end,
+    keys = {
+      {
+        '<leader>Tt',
+        function()
+          require('neotest').run.run(vim.fn.expand '%')
+        end,
+        desc = '[T]est Run File',
+      },
+      {
+        '<leader>Tn',
+        function()
+          require('neotest').run.run()
+        end,
+        desc = '[T]est Run [N]earest',
+      },
+      {
+        '<leader>Td',
+        function()
+          require('neotest').run.run { strategy = 'dap' }
+        end,
+        desc = '[T]est [D]ebug Nearest',
+      },
+      {
+        '<leader>Ts',
+        function()
+          require('neotest').summary.toggle()
+        end,
+        desc = '[T]est [S]ummary',
+      },
+      {
+        '<leader>To',
+        function()
+          require('neotest').output.open { enter = true }
+        end,
+        desc = '[T]est [O]utput',
+      },
+      {
+        '<leader>TS',
+        function()
+          require('neotest').run.stop()
+        end,
+        desc = '[T]est [S]top',
+      },
+    },
+  },
+
+  -- Refactoring tools
+  {
+    'ThePrimeagen/refactoring.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      require('refactoring').setup {
+        prompt_func_return_type = {
+          go = true,
+          cpp = true,
+          c = true,
+        },
+        prompt_func_param_type = {
+          go = true,
+          cpp = true,
+          c = true,
+        },
+      }
+    end,
+    keys = {
+      {
+        '<leader>re',
+        function()
+          require('refactoring').refactor 'Extract Function'
+        end,
+        mode = 'x',
+        desc = '[R]efactor [E]xtract Function',
+      },
+      {
+        '<leader>rf',
+        function()
+          require('refactoring').refactor 'Extract Function To File'
+        end,
+        mode = 'x',
+        desc = '[R]efactor Extract to [F]ile',
+      },
+      {
+        '<leader>rv',
+        function()
+          require('refactoring').refactor 'Extract Variable'
+        end,
+        mode = 'x',
+        desc = '[R]efactor Extract [V]ariable',
+      },
+      {
+        '<leader>ri',
+        function()
+          require('refactoring').refactor 'Inline Variable'
+        end,
+        mode = { 'n', 'x' },
+        desc = '[R]efactor [I]nline Variable',
+      },
+      {
+        '<leader>rb',
+        function()
+          require('refactoring').refactor 'Extract Block'
+        end,
+        mode = 'n',
+        desc = '[R]efactor Extract [B]lock',
+      },
+    },
+  },
+
+  -- Session management
+  {
+    'folke/persistence.nvim',
+    event = 'BufReadPre',
+    opts = {
+      dir = vim.fn.expand(vim.fn.stdpath 'state' .. '/sessions/'),
+      options = { 'buffers', 'curdir', 'tabpages', 'winsize' },
+    },
+    keys = {
+      {
+        '<leader>qs',
+        function()
+          require('persistence').load()
+        end,
+        desc = 'Restore Session',
+      },
+      {
+        '<leader>ql',
+        function()
+          require('persistence').load { last = true }
+        end,
+        desc = 'Restore Last Session',
+      },
+      {
+        '<leader>qd',
+        function()
+          require('persistence').stop()
+        end,
+        desc = "Don't Save Session",
+      },
+    },
+  },
+
   {
     'folke/trouble.nvim',
     opts = {}, -- for default options, refer to the configuration section for custom setup.
@@ -107,13 +297,6 @@ return {
       },
     },
   },
-  -- flash.nvim
-  --  See `:help flash.nvim`
-  --  This is a plugin that will highlight the word under your cursor
-  --  when you move your cursor around. It's a great way to see what
-  --  you're typing!
-  --  NOTE: This is a very simple plugin, and it's not very configurable.
-  --        It's just a good starting point for your own plugin.
   {
     'folke/flash.nvim',
     event = 'VeryLazy',
@@ -128,26 +311,22 @@ return {
     { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
   },
   },
-
-  -- harpoon.nvim
-  --  See `:help harpoon.nvim`
-  --  This is a plugin that allows you to mark files and jump to them
-  --  with a single keypress. It's a great way to navigate your filesystem
-  --  quickly and easily.
-  --  NOTE: This is a very simple plugin, and it's not very configurable.
-  --        It's just a good starting point for your own plugin.
   {
     'kevinhwang91/nvim-ufo',
     dependencies = { 'kevinhwang91/promise-async' },
+    event = 'BufReadPost',
+    keys = {
+      { 'zR', function() require('ufo').openAllFolds() end, desc = 'Open all folds' },
+      { 'zM', function() require('ufo').closeAllFolds() end, desc = 'Close all folds' },
+    },
     init = function()
       -- nvim folding using LSP
       vim.o.foldcolumn = '0' -- '0' is not bad
       vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
-      -- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
-      vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
-      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+    end,
+    config = function()
       -- nvim lsp as LSP client
       -- Tell the server the capability of foldingRange,
       -- Neovim hasn't added foldingRange to default capabilities, users must add it manually
@@ -164,6 +343,7 @@ return {
   },
   {
     'supermaven-inc/supermaven-nvim',
+    event = 'InsertEnter',
     config = function()
       require('supermaven-nvim').setup {
         keymaps = {
@@ -171,54 +351,62 @@ return {
           clear_suggestion = '<C-]>',
           accept_word = '<C-j>',
         },
-        -- ignore_filetypes = { cpp = true }, -- or { "cpp", }
-        -- color = {
-        --   suggestion_color = '#ffffff',
-        --   cterm = 244,
-        -- },
-        -- log_level = 'info', -- set to "off" to disable logging completely
-        -- disable_inline_completion = false, -- disables inline completion for use with cmp
-        -- disable_keymaps = false, -- disables built in keymaps for more manual control
-        -- condition = function()
-        --   -- return string.match(vim.fn.expand("%:t"), "foo.sh")
-        --   return false
-        -- end, -- condition to check for stopping supermaven, `true` means to stop supermaven when the condition is true.
       }
     end,
   },
   {
     'ThePrimeagen/harpoon',
-    dependencies = { { 'nvim-lua/plenary.nvim' }, { 'nvim-telescope/telescope.nvim' } },
-    keys = {
-      { '<leader>am', ":lua require('harpoon.ui').toggle_quick_menu()<CR>", desc = 'Harpoon Menu' },
-      { '<leader>aa', ":lua require('harpoon.mark').add_file()<CR>", desc = 'add file as marked' },
-      { '<leader>ad', ":lua require('harpoon.mark').rm_file()<CR>", desc = 'Remove file' },
-      { '<leader>acl', ":lua require('harpoon.mark').clear_all()<CR>", desc = 'Clear shit' },
-      { '<leader>aj', ":lua require('harpoon.ui').nav_next()<CR>", desc = 'Next file ' },
-      { '<leader>ak', ":lua require('harpoon.ui').nav_prev()<CR>", desc = 'Prev file ' },
-      { '<leader>1', ":lua require('harpoon.ui').nav_file(1)<CR>", desc = '1st file' },
-      { '<leader>2', ":lua require('harpoon.ui').nav_file(2)<CR>", desc = '2nd file' },
-      { '<leader>3', ":lua require('harpoon.ui').nav_file(3)<CR>", desc = '3rd file' },
-      { '<leader>4', ":lua require('harpoon.ui').nav_file(4)<CR>", desc = '4th file' },
-      { '<leader>5', ":lua require('harpoon.ui').nav_file(5)<CR>", desc = '5th file' },
-    },
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local harpoon = require 'harpoon'
+      harpoon:setup()
+
+      -- Basic keymaps
+      vim.keymap.set('n', '<leader>aa', function()
+        harpoon:list():add()
+      end, { desc = 'Add file to Harpoon' })
+      vim.keymap.set('n', '<leader>am', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end, { desc = 'Harpoon Menu' })
+
+      -- Navigate to files
+      vim.keymap.set('n', '<leader>1', function()
+        harpoon:list():select(1)
+      end, { desc = '1st file' })
+      vim.keymap.set('n', '<leader>2', function()
+        harpoon:list():select(2)
+      end, { desc = '2nd file' })
+      vim.keymap.set('n', '<leader>3', function()
+        harpoon:list():select(3)
+      end, { desc = '3rd file' })
+      vim.keymap.set('n', '<leader>4', function()
+        harpoon:list():select(4)
+      end, { desc = '4th file' })
+      vim.keymap.set('n', '<leader>5', function()
+        harpoon:list():select(5)
+      end, { desc = '5th file' })
+
+      -- Toggle previous & next buffers
+      vim.keymap.set('n', '<leader>aj', function()
+        harpoon:list():next()
+      end, { desc = 'Next Harpoon file' })
+      vim.keymap.set('n', '<leader>ak', function()
+        harpoon:list():prev()
+      end, { desc = 'Previous Harpoon file' })
+    end,
   },
   {
-    'ellisonleao/glow.nvim',
-    cmd = 'Glow',
-    config = function()
-      require('glow').setup {
-        -- glow_path = '', -- will be filled automatically with your glow bin in $PATH, if any
-        -- install_path = '~/.local/bin', -- default path for installing glow binary
-        border = 'shadow', -- floating window border config
-        style = 'dark', -- filled automatically with your current editor background, you can override using glow json style
-        pager = false,
-        -- width = 80,
-        -- height = 100,
-        width_ratio = 0.95, -- maximum width of the Glow window compared to the nvim window size (overrides `width`)
-        height_ratio = 0.95,
-      }
-    end,
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+    ft = { 'markdown' },
+    opts = {
+      enabled = true,
+      render_modes = { 'n', 'c', 't' }, -- Normal, Command, Terminal modes
+      debounce = 100, -- Milliseconds before updating
+      file_types = { 'markdown' },
+      max_file_size = 10.0, -- Maximum file size in MB
+    },
   },
   { 'mbbill/undotree' },
   {
@@ -227,46 +415,40 @@ return {
       require('uv').setup()
     end,
   },
-  {
-    'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim',
-    config = function()
-      require('toggle_lsp_diagnostics').init(
-        { start_on = true },
-        { underline = true, virtual_text = { prefix = 'XXX', spacing = 5 } }
-      ) -- Toggle LSP linter
-    end,
-  },
+
 
   {
     'nvim-tree/nvim-tree.lua',
     dependencies = {
       'nvim-tree/nvim-web-devicons', -- optional, for file icons
     },
+    keys = {
+      { '<leader>e', ':NvimTreeToggle<CR>', desc = 'Toggle NvimTree' },
+      { '\\', ':NvimTreeFindFile<CR>', desc = 'NvimTree Find File' },
+    },
     config = function()
       require('nvim-tree').setup {
         sort_by = 'case_sensitive',
         view = {
-          width = 30,
+          width = 35,
         },
         renderer = {
           group_empty = true,
         },
         filters = {
-          dotfiles = true,
+          dotfiles = false, -- Show dotfiles by default (toggle with 'H' in tree)
         },
       }
     end,
   },
-  {
-    'smoka7/hop.nvim',
-    version = '*',
-    opts = {},
-    lazy = false,
-  },
+
   {
     'akinsho/toggleterm.nvim',
-    lazy = false,
     cmd = { 'ToggleTerm' },
+    keys = {
+      { [[<c-\>]], desc = 'Toggle terminal' },
+      { '<leader>gg', ':ToggleTerm direction=float<CR>lazygit<CR>', desc = 'Lazygit' },
+    },
     opts = {
       open_mapping = [[<c-\>]],
       direction = 'float',
@@ -345,12 +527,19 @@ return {
       -- Document existing key chains
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>r', group = '[R]ename' },
+        { '<leader>d', group = '[D]ocument/[D]iagnostic/[D]ebug' },
+        { '<leader>r', group = '[R]ename/[R]efactor' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>w', group = '[W]orkspace' },
-        { '<leader>t', group = '[T]oggle' },
+        { '<leader>t', group = '[T]oggle/[T]erminal' },
+        { '<leader>T', group = '[T]est' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>a', group = 'H[a]rpoon' },
+        { '<leader>g', group = '[G]it' },
+        { '<leader>q', group = '[Q]uit/Session' },
+        { '<leader>x', group = 'Diagnostics (Trouble)' },
+        { '<leader>f', group = '[F]ormat' },
+        { '<leader>o', group = '[O]cto/GitHub' },
       },
     },
   },
@@ -415,10 +604,7 @@ return {
       local formatters_config = require 'custom.formatters'
       return {
         notify_on_error = true,
-        format_on_save = {
-          timeout_ms = 500,
-          lsp_format = 'fallback',
-        },
+        format_on_save = nil, -- Disabled by default - use <leader>fw to format manually, <leader>ft to toggle
         formatters_by_ft = formatters_config.formatters_by_ft,
         formatters = formatters_config.formatters,
       }
@@ -449,12 +635,12 @@ return {
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -482,7 +668,7 @@ return {
         cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
         -- toggle theme style ---
-        toggle_style_key = '<leader>ts', -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+        toggle_style_key = '<leader>tS', -- keybind to toggle theme style
         toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
 
         -- Change code style ---
@@ -545,20 +731,7 @@ return {
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
 
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
+      -- mini.statusline removed - using lualine.nvim instead for statusline
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
@@ -588,9 +761,227 @@ return {
   },
   {
     'chomosuke/typst-preview.nvim',
-    lazy = false,
+    ft = 'typst', -- Only load for Typst files
     version = '1.*',
     opts = {},
+  },
+  {
+    'HiPhish/rainbow-delimiters.nvim',
+    event = 'VeryLazy',
+    config = function()
+      local rainbow_delimiters = require 'rainbow-delimiters'
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [''] = rainbow_delimiters.strategy['global'],
+          vim = rainbow_delimiters.strategy['local'],
+        },
+        query = {
+          [''] = 'rainbow-delimiters',
+          lua = 'rainbow-blocks',
+        },
+        priority = {
+          [''] = 110,
+          lua = 210,
+        },
+        highlight = {
+          'RainbowDelimiterRed',
+          'RainbowDelimiterYellow',
+          'RainbowDelimiterBlue',
+          'RainbowDelimiterOrange',
+          'RainbowDelimiterGreen',
+          'RainbowDelimiterViolet',
+          'RainbowDelimiterCyan',
+        },
+      }
+    end,
+  },
+  {
+    'karb94/neoscroll.nvim',
+    event = 'VeryLazy',
+    config = function()
+      local neoscroll = require 'neoscroll'
+      neoscroll.setup {
+        mappings = {}, -- Disable default mappings, we'll use custom ones
+        hide_cursor = true,
+        stop_eof = true,
+        respect_scrolloff = false,
+        cursor_scrolls_alone = true,
+        easing = 'quadratic',
+        performance_mode = false,
+      }
+
+      -- Custom smooth scrolling keymaps
+      local keymap = {
+        ['<C-u>'] = function()
+          neoscroll.ctrl_u { duration = 250, easing = 'sine' }
+        end,
+        ['<C-d>'] = function()
+          neoscroll.ctrl_d { duration = 250, easing = 'sine' }
+        end,
+        ['<C-b>'] = function()
+          neoscroll.ctrl_b { duration = 450, easing = 'circular' }
+        end,
+        ['<C-f>'] = function()
+          neoscroll.ctrl_f { duration = 450, easing = 'circular' }
+        end,
+        ['<C-y>'] = function()
+          neoscroll.scroll(-0.1, { move_cursor = false, duration = 100 })
+        end,
+        ['<C-e>'] = function()
+          neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
+        end,
+        ['zt'] = function()
+          neoscroll.zt { half_win_duration = 250 }
+        end,
+        ['zz'] = function()
+          neoscroll.zz { half_win_duration = 250 }
+        end,
+        ['zb'] = function()
+          neoscroll.zb { half_win_duration = 250 }
+        end,
+      }
+
+      local modes = { 'n', 'v', 'x' }
+      for key, func in pairs(keymap) do
+        vim.keymap.set(modes, key, func)
+      end
+    end,
+  },
+  {
+    'cpea2506/one_monokai.nvim',
+    priority = 1000,
+    config = function()
+      require('one_monokai').setup {
+        transparent = true,
+        colors = {},
+        highlights = function(colors)
+          return {}
+        end,
+        italics = true,
+      }
+      -- Uncomment to set as default colorscheme
+      -- vim.cmd.colorscheme 'one_monokai'
+    end,
+  },
+  {
+    'b0o/incline.nvim',
+    event = 'VeryLazy',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      local helpers = require 'incline.helpers'
+      local devicons = require 'nvim-web-devicons'
+      require('incline').setup {
+        window = {
+          padding = 0,
+          margin = { horizontal = 0 },
+        },
+        render = function(props)
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':t')
+          if filename == '' then
+            filename = '[No Name]'
+          end
+          local ft_icon, ft_color = devicons.get_icon_color(filename)
+          local modified = vim.bo[props.buf].modified
+          return {
+            ft_icon and { ' ', ft_icon, ' ', guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or '',
+            ' ',
+            { filename, gui = modified and 'bold,italic' or 'bold' },
+            ' ',
+            guibg = '#44406e',
+          }
+        end,
+      }
+    end,
+  },
+  {
+    'echasnovski/mini.icons',
+    version = false,
+    config = function()
+      require('mini.icons').setup()
+      MiniIcons.mock_nvim_web_devicons()
+    end,
+  },
+  {
+    'y3owk1n/undo-glow.nvim',
+    event = 'VeryLazy',
+    opts = {
+      animation = {
+        enabled = true,
+        duration = 300,
+        animation_type = 'zoom',
+        window_scoped = true,
+      },
+      highlights = {
+        undo = {
+          hl_color = { bg = '#693232' }, -- Dark muted red
+        },
+        redo = {
+          hl_color = { bg = '#2F4640' }, -- Dark muted green
+        },
+        yank = {
+          hl_color = { bg = '#7A683A' }, -- Dark muted yellow
+        },
+        paste = {
+          hl_color = { bg = '#325B5B' }, -- Dark muted cyan
+        },
+        search = {
+          hl_color = { bg = '#5C475C' }, -- Dark muted purple
+        },
+        comment = {
+          hl_color = { bg = '#7A5A3D' }, -- Dark muted orange
+        },
+        cursor = {
+          hl_color = { bg = '#793D54' }, -- Dark muted pink
+        },
+      },
+      priority = 2048 * 3,
+    },
+    keys = {
+      {
+        'u',
+        function()
+          require('undo-glow').undo()
+        end,
+        mode = 'n',
+        desc = 'Undo with highlight',
+        noremap = true,
+      },
+      {
+        'U',
+        function()
+          require('undo-glow').redo()
+        end,
+        mode = 'n',
+        desc = 'Redo with highlight',
+        noremap = true,
+      },
+      {
+        'p',
+        function()
+          require('undo-glow').paste_below()
+        end,
+        mode = 'n',
+        desc = 'Paste below with highlight',
+        noremap = true,
+      },
+      {
+        'P',
+        function()
+          require('undo-glow').paste_above()
+        end,
+        mode = 'n',
+        desc = 'Paste above with highlight',
+        noremap = true,
+      },
+    },
+    init = function()
+      vim.api.nvim_create_autocmd('TextYankPost', {
+        desc = 'Highlight when yanking (copying) text',
+        callback = function()
+          require('undo-glow').yank()
+        end,
+      })
+    end,
   },
   require 'custom.indent_line',
   require 'custom.lint',

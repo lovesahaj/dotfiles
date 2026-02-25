@@ -93,7 +93,7 @@ return {
       persist_size = true,
       close_on_exit = true,
       shell = vim.o.shell,
-      direction = 'float',
+      direction = 'horizontal',
       float_opts = {
         border = "curved",
         winblend = 0,

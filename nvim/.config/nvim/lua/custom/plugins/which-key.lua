@@ -59,13 +59,16 @@ return {
     
     local wk = require("which-key")
     wk.add({
-      -- Group definitions
-      { "<leader>f", group = "+file/find" },
-      { "<leader>g", group = "+git" },
-      { "<leader>d", group = "+debug/diagnostics" },
-      { "<leader>t", group = "+toggle/terminal" },
-      { "<leader>s", group = "+search" },
-      
+      -- Octo (GitHub) keymaps
+      { "<leader>oi", "<CMD>Octo issue list<CR>", desc = "List Issues" },
+      { "<leader>op", "<CMD>Octo pr list<CR>", desc = "List Pull Requests" },
+      { "<leader>od", "<CMD>Octo discussion list<CR>", desc = "List Discussions" },
+      { "<leader>on", "<CMD>Octo notification list<CR>", desc = "List Notifications" },
+      { "<leader>oo", "<CMD>Octo<CR>", desc = "Octo Actions" },
+      { "<leader>oS", function() require('octo.utils').create_base_search_command { include_current_repo = true } end, desc = "Search GitHub" },
+      { "<leader>or", "<CMD>Octo review start<CR>", desc = "Start PR Review" },
+      { "<leader>oC", "<CMD>Octo pr create<CR>", desc = "Create Pull Request" },
+
       -- Terminal related keymaps
       { "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", desc = "Float Terminal" },
       { "<leader>th", "<cmd>ToggleTerm direction=horizontal<CR>", desc = "Horizontal Terminal" },
@@ -73,7 +76,7 @@ return {
       { "<leader>tg", "<cmd>lua lazygit_toggle()<CR>", desc = "Lazygit" },
       { "<leader>tp", "<cmd>lua run_python_file()<CR>", desc = "Run Python File" },
       { "<leader>tj", "<cmd>lua run_js_ts_file()<CR>", desc = "Run JS/TS File" },
-      { "<leader>tt", "<cmd>lua toggle_term_layout()<CR>", desc = "Toggle Terminal Layout" },
+      { "<leader>tt", "<cmd>ToggleTerm direction=horizontal<CR>", desc = "Terminal (Horizontal)" },
       { "<leader>tc", "<cmd>lua vim.ui.input({ prompt = 'Command: ' }, function(input) if input then create_term_with_cmd(input) end end)<CR>", 
         desc = "Run Custom Command" },
     })

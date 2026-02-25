@@ -5,11 +5,10 @@ return {
   },
   cmd = "Spectre",
   keys = {
-    { "<leader>sp", function() require("spectre").toggle() end, desc = "Toggle Spectre" },
-    { "<leader>sw", function() require("spectre").open_visual({select_word=true}) end, desc = "Search current word" },
-    { "<leader>sw", mode = "v", function() require("spectre").open_visual() end, desc = "Search current word" },
-    { "<leader>sp", mode = "v", function() require("spectre").open_visual() end, desc = "Search current word" },
-    { "<leader>sr", mode = { "n", "v" }, function() require("spectre").open_file_search({select_word=true}) end, desc = "Search in current file" },
+    { "<leader>S", function() require("spectre").toggle() end, desc = "Toggle Spectre (Search & Replace)" },
+    { "<leader>sw", function() require("spectre").open_visual({select_word=true}) end, desc = "[S]pectre: Search current [W]ord" },
+    { "<leader>sw", mode = "v", function() require("spectre").open_visual() end, desc = "[S]pectre: Search selection" },
+    { "<leader>sf", function() require("spectre").open_file_search({select_word=true}) end, desc = "[S]pectre: Search in current [F]ile" },
   },
   config = function()
     require("spectre").setup({

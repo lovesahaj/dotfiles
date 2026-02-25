@@ -18,15 +18,17 @@ vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diag
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set('n', 'gA', 'ggVG"+y') -- If this doesn't work change + to * -- Copy all to Clipboard
-vim.keymap.set('n', 'gY', 'ggVGy') -- If this doesn't work change + to * -- Copy all to Clipboard
+vim.keymap.set('n', 'gA', 'ggVG"+y', { desc = 'Copy all to clipboard' })
+vim.keymap.set('n', 'gY', 'ggVGy', { desc = 'Yank all to register' })
 
-vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = 'Toggle NvimTree' })
-vim.keymap.set('n', '\\', ':NvimTreeFindFile<CR>', { desc = 'NvimTree Find File' })
-vim.keymap.set('n', '<leader>td', ':ToggleDiag<CR>') -- Toggle the diagnostics
-vim.keymap.set('n', '<leader>p', ':Glow<CR>') -- Glow to preview the markdown
+-- Toggle diagnostics using native Neovim 0.10+ API
+vim.keymap.set('n', '<leader>td', function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end, { desc = '[T]oggle [D]iagnostics' })
 
-vim.keymap.set('n', '<leader>gs', ':Gitsigns toggle_linehl<CR>') -- Toggle the git diagnostics
+vim.keymap.set('n', '<leader>p', ':RenderMarkdown toggle<CR>', { desc = 'Toggle markdown rendering' })
+
+vim.keymap.set('n', '<leader>tL', ':Gitsigns toggle_linehl<CR>', { desc = '[T]oggle git [L]ine highlights' })
 vim.keymap.set('n', '<leader>i', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -43,10 +45,7 @@ vim.keymap.set('n', '<leader>h', '<C-w><C-h>', { desc = 'Move focus to the left 
 vim.keymap.set('n', '<leader>l', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<leader>j', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<leader>k', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
-
--- Hop Word -- My need to (:
-vim.keymap.set('n', '<leader>H', ':HopWord<CR>')
+vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = 'Toggle Undotree' })
 
 -- Formatting keymaps
 vim.keymap.set({ 'n', 'v' }, '<leader>fw', function()
