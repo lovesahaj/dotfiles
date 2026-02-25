@@ -652,65 +652,7 @@ return {
       'hrsh7th/cmp-path',
     },
   },
-  {
-    'navarasu/onedark.nvim',
-    priority = 1000, -- make sure to load this before all the other start plugins
-    init = function()
-      -- Load the colorscheme here.
-      -- -- Lua
-      -- Lua
-      require('onedark').setup {
-        -- Main options --
-        style = 'darker', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-        transparent = true, -- Show/hide background
-        term_colors = true, -- Change terminal color as per the selected theme style
-        ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
-        cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
-        -- toggle theme style ---
-        toggle_style_key = '<leader>tS', -- keybind to toggle theme style
-        toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
-
-        -- Change code style ---
-        -- Options are italic, bold, underline, none
-        -- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
-        code_style = {
-          comments = 'italic',
-          keywords = 'bold',
-          functions = 'bold',
-          strings = 'none',
-          variables = 'bold',
-        },
-
-        -- Lualine options --
-        lualine = {
-          transparent = true, -- lualine center bar transparency
-        },
-
-        -- Custom Highlights --
-        colors = {
-          bright_orange = '#ff8800', -- define a new color
-          green = '#00ffaa', -- redefine an existing color
-          bright_purple = '#cc99cc',
-        },
-        highlights = {
-          ['@keyword'] = { fg = '$bright_orange' },
-          ['@string'] = { fg = '$bright_purple', fmt = 'bold' },
-          ['@function'] = { fg = 'yellow', fmt = 'italic' },
-          ['@function.builtin'] = { fg = 'bright_blue', fmt = 'bold' },
-          ['@comment'] = { fg = '$green', fmt = 'italic' },
-        },
-
-        -- Plugins Config --
-        diagnostics = {
-          darker = true, -- darker colors for diagnostic
-          undercurl = true, -- use undercurl instead of underline for diagnostics
-          background = true, -- use background color for virtual text
-        },
-      }
-      vim.cmd.colorscheme 'onedark'
-    end,
-  },
 
   -- Highlight todo, notes, etc in comments
   {
@@ -847,22 +789,7 @@ return {
       end
     end,
   },
-  {
-    'cpea2506/one_monokai.nvim',
-    priority = 1000,
-    config = function()
-      require('one_monokai').setup {
-        transparent = true,
-        colors = {},
-        highlights = function(colors)
-          return {}
-        end,
-        italics = true,
-      }
-      -- Uncomment to set as default colorscheme
-      -- vim.cmd.colorscheme 'one_monokai'
-    end,
-  },
+
   {
     'b0o/incline.nvim',
     event = 'VeryLazy',
