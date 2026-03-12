@@ -23,9 +23,32 @@ vim.opt.linebreak = true -- Break lines at word boundaries
 vim.opt.showbreak = '↪ ' -- Show character at the start of wrapped lines
 
 -- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
+--  Uses OSC 52 when no native clipboard tool is available (e.g. inside tmux over SSH).
+--  This works through tmux (allow-passthrough on) → kitten ssh → kitty on the local machine.
 --  See `:help 'clipboard'`
 vim.opt.clipboard = 'unnamedplus'
+
+-- Use OSC 52 as clipboard provider when no native tool (pbcopy/xclip/etc.) is present.
+-- On a local machine this is a no-op since the native provider takes precedence.
+-- Over SSH (inside tmux via kitten ssh) this is what carries clipboard data back to kitty.
+local function use_osc52()
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = {
+      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    },
+    paste = {
+      ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+      ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+    },
+  }
+end
+
+-- Only force OSC 52 when inside SSH (no local clipboard tools reachable)
+if os.getenv('SSH_TTY') ~= nil or os.getenv('SSH_CLIENT') ~= nil then
+  use_osc52()
+end
 
 -- Enable break indent
 vim.opt.breakindent = true
