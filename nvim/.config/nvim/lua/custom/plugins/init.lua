@@ -343,7 +343,8 @@ return {
   },
   {
     'supermaven-inc/supermaven-nvim',
-    event = 'InsertEnter',
+    lazy = true, -- Load only when manually activated
+    cmd = { 'SupermavenStart', 'SupermavenStop', 'SupermavenToggle', 'SupermavenStatus' },
     config = function()
       require('supermaven-nvim').setup {
         keymaps = {
