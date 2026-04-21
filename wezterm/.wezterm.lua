@@ -177,5 +177,9 @@ config.key_tables = {
   },
 }
 
+-- Enable Kitty keyboard protocol so Helix receives unambiguous key sequences
+-- (e.g. ctrl+/ for toggle_comments)
+config.enable_kitty_keyboard = true
+
 -- and finally, return the configuration to wezterm
 return config

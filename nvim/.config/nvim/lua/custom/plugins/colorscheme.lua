@@ -82,10 +82,17 @@ return {
   -- Oxocarbon colorscheme
   {
     "nyoom-engineering/oxocarbon.nvim",
+    lazy = true,
+    priority = 1000,
+  },
+
+  -- Monokai True Dark (custom local colorscheme)
+  {
+    "tomasr/molokai",
     lazy = false,
-    priority = 1001, -- Higher priority to load this theme by default
+    priority = 1001,
     config = function()
-      vim.cmd.colorscheme "oxocarbon"
+      vim.cmd.colorscheme "monokai_true_dark"
     end,
   },
 }

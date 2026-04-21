@@ -2,17 +2,46 @@ theme = "molokai"
 
 [editor]
 line-number = "relative"
+default-yank-register = "+"
 mouse = false
+scrolloff = 10                 # keep cursor away from screen edges
+rulers = [88]
+
+[editor.indent-guides]
+render = true
+character = "▏"
+skip-levels = 1
+
+[editor.soft-wrap]
+enable = true
 
 [editor.cursor-shape]
 insert = "bar"
 normal = "block"
 select = "underline"
 
+[editor.lsp]
+display-inlay-hints = true
+display-messages = true
+
 [editor.file-picker]
 hidden = false
 
+[keys.normal]
+"C-/" = "toggle_comments"
+"C-_" = "toggle_comments"
+"C-r" = ":reload"
 
 [keys.select]
 X = "extend_line_above"
 "A-x" = "extend_to_line_bounds"
+"C-/" = "toggle_comments"
+"C-_" = "toggle_comments"
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "file-modification-indicator"]
+center = ["version-control"]
+right = ["diagnostics", "selections", "position", "file-encoding", "file-type"]
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"

@@ -1,15 +1,22 @@
 #!/bin/bash
-set -euxo pipefail # Keep debug flags for now
+# Pyright wrapper that activates the uv-managed .venv if present
 
-echo "Wrapper script started"
+# Walk up from cwd to find project root (contains pyproject.toml or uv.lock)
+find_project_root() {
+    local dir="$PWD"
+    while [[ "$dir" != "/" ]]; do
+        if [[ -f "$dir/pyproject.toml" || -f "$dir/uv.lock" ]]; then
+            echo "$dir"
+            return
+        fi
+        dir="$(dirname "$dir")"
+    done
+}
 
-# Add your environment activation or setup logic here if needed.
-# Example:
-# if [ -f ".venv/bin/activate" ]; then
-#     echo "Activating .venv"
-#     source .venv/bin/activate
-# fi
+PROJECT_ROOT="$(find_project_root)"
 
-echo "Executing pyright with args: $@"
-# Pass ONLY the arguments received by the script ($@)
-exec pyright "$@"
+if [[ -n "$PROJECT_ROOT" && -f "$PROJECT_ROOT/.venv/bin/activate" ]]; then
+    source "$PROJECT_ROOT/.venv/bin/activate"
+fi
+
+exec pyright-langserver "$@"
