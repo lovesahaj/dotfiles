@@ -79,7 +79,7 @@ M.formatters_by_ft = {
   ocaml = { 'ocamlformat' },
   
   -- Zig
-  zig = { 'zig fmt' },
+  zig = { 'zigfmt' },
   
   -- Terraform
   terraform = { 'terraform_fmt' },

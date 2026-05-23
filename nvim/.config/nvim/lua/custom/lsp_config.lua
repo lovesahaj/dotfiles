@@ -280,6 +280,17 @@ return {
       -- },
 
       ruff = {},
+      zls = {
+        settings = {
+          zls = {
+            enable_build_on_save = true,
+            build_on_save_step = 'check',
+            enable_inlay_hints = true,
+            enable_semantic_tokens = true,
+            warn_style = true,
+          },
+        },
+      },
       tinymist = {
         settings = {
           formatterMode = 'typstyle',
