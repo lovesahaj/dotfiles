@@ -701,6 +701,25 @@ return {
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
+    config = function(_, opts)
+      require('nvim-treesitter.configs').setup(opts)
+
+      local aliases = { ex = 'elixir', pl = 'perl', sh = 'bash', ts = 'typescript', uxn = 'uxntal' }
+      vim.treesitter.query.add_directive('set-lang-from-info-string!', function(match, _, bufnr, pred, metadata)
+        local node = match[pred[2]]
+        if not node or type(node.range) ~= 'function' then
+          return
+        end
+
+        local ok, text = pcall(vim.treesitter.get_node_text, node, bufnr)
+        if not ok or text == '' then
+          return
+        end
+
+        local lang = text:lower()
+        metadata['injection.language'] = vim.filetype.match { filename = 'a.' .. lang } or aliases[lang] or lang
+      end, { force = true, all = false })
+    end,
   },
   {
     'chomosuke/typst-preview.nvim',
