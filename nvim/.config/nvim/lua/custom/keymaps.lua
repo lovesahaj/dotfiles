@@ -56,19 +56,19 @@ vim.keymap.set('n', '<leader>fi', ':ConformInfo<CR>', { desc = '[F]ormat [I]nfo 
 
 -- Toggle format on save (in case you want to temporarily enable it)
 vim.keymap.set('n', '<leader>ft', function()
-  local conform = require('conform')
+  local conform = require 'conform'
   if vim.g.format_on_save_enabled then
     vim.g.format_on_save_enabled = false
-    conform.setup({ format_on_save = nil })
-    print('Format on save: DISABLED')
+    conform.setup { format_on_save = nil }
+    print 'Format on save: DISABLED'
   else
     vim.g.format_on_save_enabled = true
-    conform.setup({
+    conform.setup {
       format_on_save = {
         timeout_ms = 500,
         lsp_format = 'fallback',
       },
-    })
-    print('Format on save: ENABLED')
+    }
+    print 'Format on save: ENABLED'
   end
 end, { desc = '[F]ormat [T]oggle auto-format on save' })

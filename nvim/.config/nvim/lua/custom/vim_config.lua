@@ -18,7 +18,7 @@ vim.opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in status line
 vim.opt.showmode = false -- Changed to false as it will be shown in statusline
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.linebreak = true -- Break lines at word boundaries
 vim.opt.showbreak = '↪ ' -- Show character at the start of wrapped lines
 
