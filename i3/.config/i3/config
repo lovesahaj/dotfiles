@@ -27,8 +27,6 @@ set $bar_setting_position            bottom
 set $bar_setting_mode                dock
 set $bar_setting_font                pango:Agave Nerd Font Mono, Regular 11
 set $bar_setting_separator           " | "
-set $bar_setting_statusCommand       i3blocks
-set $bar_setting_trayoutput          full
 
 set $bar_color_background            #3B4252
 set $bar_color_foreground            #D8DEE9
@@ -153,13 +151,13 @@ client.placeholder      $wm_color_border_inactive_bg $wm_color_border_inactive_b
 client.background       $wm_color_background
 
 
-bindsym $mod+$smod+Delete exec /home/lovess/.config/i3blocks/shutdown_menu/shutdown_menu
+bindsym $mod+$smod+Delete exec ~/.config/i3/shutdown_menu.sh
 
 ### i3bar ###
 bar {
 	position         $bar_setting_position
 	font             $bar_setting_font
-	status_command   SCRIPT_DIR=/home/lovess/.config/i3blocks $bar_setting_statusCommand
+	status_command   ~/.config/i3/status.sh
 }
 
 ### Miscellaneous settings ###
