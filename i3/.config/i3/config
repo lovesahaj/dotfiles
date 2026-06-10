@@ -14,8 +14,8 @@ set $wm_setting_key_down             j
 set $wm_setting_key_up               k
 set $wm_setting_key_right            l
 
-set $wm_setting_app_terminal         wezterm
-set $wm_setting_app_browser          brave
+set $wm_setting_app_terminal         kitty
+set $wm_setting_app_browser          Firefox
 
 set $wm_color_border_active_bg       #81A1C1
 set $wm_color_border_active_fg       #3B4252
@@ -25,7 +25,7 @@ set $wm_color_background             #2E3440
 
 set $bar_setting_position            bottom
 set $bar_setting_mode                dock
-set $bar_setting_font                pango:Agave Nerd Font Mono, Regular 11
+set $bar_setting_font                pango:Hack Nerd Font Mono, Regular 11
 set $bar_setting_separator           " | "
 
 set $bar_color_background            #3B4252
@@ -151,13 +151,13 @@ client.placeholder      $wm_color_border_inactive_bg $wm_color_border_inactive_b
 client.background       $wm_color_background
 
 
-bindsym $mod+$smod+Delete exec $HOME/.config/i3/shutdown_menu.sh
+bindsym $mod+$smod+Delete exec sh -c 'i3-nagbar -t warning -m "Power menu" -B "Shutdown" "systemctl poweroff" -B "Reboot" "systemctl reboot" -B "Suspend" "systemctl suspend" -B "Logout" "i3-msg exit"'
 
 ### i3bar ###
 bar {
 	position         $bar_setting_position
 	font             $bar_setting_font
-	status_command   $HOME/.config/i3/status.sh
+	status_command   sh -c 'f=/tmp/i3s; while true; do read -r _ u n s id iw ir sf st _ </proc/stat; [ -f $f ] && { read pu pn ps pid piw pir psf pst <$f; used=$((u+n+s+ir+sf+st-pu-pn-ps-pir-psf-pst)); tot=$((used+id+iw-pid-piw)); cpu=$((tot>0?used*100/tot:0)); } || cpu=0; printf "%s %s %s %s %s %s %s %s\n" $u $n $s $id $iw $ir $sf $st >$f; mt=$(grep -m1 "^MemTotal:" /proc/meminfo); ma=$(grep -m1 "^MemAvailable:" /proc/meminfo); mt=${mt//[^0-9]/}; ma=${ma//[^0-9]/}; printf "CPU %d%%   RAM %dM/%dM   %s\n" $cpu "$(((mt-ma)/1024))" "$((mt/1024))" "$(date +"%a %d %b  %H:%M:%S")"; sleep 1; done'
 }
 
 ### Miscellaneous settings ###
