@@ -16,7 +16,6 @@ set $wm_setting_key_right            l
 
 set $wm_setting_app_terminal         wezterm
 set $wm_setting_app_browser          brave
-set $wm_setting_app_compositor       picom
 
 set $wm_color_border_active_bg       #81A1C1
 set $wm_color_border_active_fg       #3B4252
@@ -55,8 +54,6 @@ bindsym $mod+$smod+Return exec $wm_setting_app_browser
 # Start a program launcher
 bindsym $mod+space  exec rofi -show drun
 
-# Run a window compositor (for effects like transparency or full VSync)
-exec_always --no-startup-id $wm_setting_app_compositor
 
 ### Workspaces ###
 # Define names for default workspaces for which we configure key bindings later on.
@@ -155,19 +152,6 @@ client.urgent           $wm_color_border_inactive_bg $wm_color_border_inactive_b
 client.placeholder      $wm_color_border_inactive_bg $wm_color_border_inactive_bg $wm_color_border_inactive_fg $wm_color_border_inactive_bg $wm_color_border_inactive_bg
 client.background       $wm_color_background
 
-# Pipewire-pulse
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
-bindsym XF86AudioMute --release exec pkill -RTMIN+1 i3blocks
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
-bindsym XF86AudioLowerVolume --release exec pkill -RTMIN+1 i3blocks
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
-bindsym XF86AudioRaiseVolume --release exec pkill -RTMIN+1 i3blocks
-
-# Media player controls
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioPause exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
 
 bindsym $mod+$smod+Delete exec /home/lovess/.config/i3blocks/shutdown_menu/shutdown_menu
 
