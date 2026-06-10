@@ -397,18 +397,6 @@ return {
       end, { desc = 'Previous Harpoon file' })
     end,
   },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
-    ft = { 'markdown' },
-    opts = {
-      enabled = true,
-      render_modes = { 'n', 'c', 't' }, -- Normal, Command, Terminal modes
-      debounce = 100, -- Milliseconds before updating
-      file_types = { 'markdown' },
-      max_file_size = 10.0, -- Maximum file size in MB
-    },
-  },
   { 'mbbill/undotree' },
   {
     'benomahony/uv.nvim',

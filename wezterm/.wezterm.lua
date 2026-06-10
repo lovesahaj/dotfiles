@@ -59,7 +59,9 @@ config.window_background_opacity = 1.0
 config.text_background_opacity = 1.0
 config.hide_tab_bar_if_only_one_tab = true
 config.font_size = 16
-config.font = wezterm.font("Agave Nerd Font")
+config.line_height = 1.0
+-- config.font = wezterm.font("M+CodeLat50 Nerd Font Mono")
+config.font = wezterm.font("Agave Nerd Font Mono")
 
 -- Leader key setup (backtick like your tmux prefix)
 config.leader = { key = "`", mods = "", timeout_milliseconds = 2000 }
@@ -90,10 +92,6 @@ config.keys = {
   { key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
   { key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
 
-  -- PANE SWAPPING
-  { key = ">", mods = "LEADER|SHIFT", action = act.RotatePanes("Clockwise") },
-  { key = "<", mods = "LEADER|SHIFT", action = act.RotatePanes("CounterClockwise") },
-
   -- PANE RESIZING (HJKL)
   { key = "H", mods = "LEADER|SHIFT", action = act.AdjustPaneSize({ "Left", 2 }) },
   { key = "J", mods = "LEADER|SHIFT", action = act.AdjustPaneSize({ "Down", 2 }) },
@@ -103,17 +101,8 @@ config.keys = {
   -- PANE ZOOM
   { key = "+", mods = "LEADER|SHIFT", action = act.TogglePaneZoomState },
 
-  -- TAB/WINDOW MANAGEMENT
-  { key = "Tab", mods = "LEADER", action = act.ActivateLastTab },
-
   -- COPY MODE
   { key = "Enter", mods = "LEADER", action = act.ActivateCopyMode },
-
-  -- NON-PREFIX BINDINGS
-  { key = "h", mods = "CTRL", action = act.ActivateTabRelative(-1) },
-  { key = "l", mods = "CTRL", action = act.ActivateTabRelative(1) },
-  { key = "H", mods = "CTRL|SHIFT", action = act.MoveTabRelative(-1) },
-  { key = "L", mods = "CTRL|SHIFT", action = act.MoveTabRelative(1) },
 }
 
 -- TAB SWITCHING BY NUMBER (like tmux `1, `2, etc.)

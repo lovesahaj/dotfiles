@@ -26,7 +26,6 @@ vim.keymap.set('n', '<leader>td', function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = '[T]oggle [D]iagnostics' })
 
-vim.keymap.set('n', '<leader>p', ':RenderMarkdown toggle<CR>', { desc = 'Toggle markdown rendering' })
 
 vim.keymap.set('n', '<leader>tL', ':Gitsigns toggle_linehl<CR>', { desc = '[T]oggle git [L]ine highlights' })
 vim.keymap.set('n', '<leader>i', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
